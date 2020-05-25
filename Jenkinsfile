@@ -1,7 +1,7 @@
 node {
     def ENV_NAME = "${ENV_NAME}"
     def APP_BUILD_NUMBER = "${APP_BUILD_NUMBER}"
-    stage ('') {
+    stage ('Build') {
         switch("${env.ENV_NAME}") {
             case "ppe":
                 verify()
