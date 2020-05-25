@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        ENV_NAME = 'dev'
+        ENV_NAME = "${ENV_NAME}"
         APP_BUILD_NUMBER = ''
     }
 
@@ -28,7 +28,7 @@ pipeline {
                 [
                     $class: 'StringParameterValue',
                     name: 'APP_BUILD_NUMBER',
-                    value: $BUILD_NUMBER,
+                    value: "${BUILD_NUMBER}",
                 ]
             ]
         )
