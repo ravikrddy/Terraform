@@ -20,6 +20,9 @@ pipeline {
         }
       }
     }
+    stage('ppe deploy approval'){
+      input "Deploy to ppe?"
+    }
     stage('trigger-ppe-pipeline') {
       when {
         environment name: 'ENV_NAME', value: 'dev'
@@ -36,6 +39,9 @@ pipeline {
             ]
         )
       }
+    }
+    stage('prod deploy approval'){
+      input "Deploy to prod?"
     }
     stage('trigger-prod-pipeline') {
       when {
