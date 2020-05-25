@@ -23,7 +23,7 @@ pipeline {
     stage('trigger-ppe-pipeline') {
       steps {
         build (
-            job: 'ppe-pipeline-ppe',
+            job: 'ppe-pipeline-plm',
             parameters: [
                 [
                     $class: 'StringParameterValue',
