@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        ENV_NAME = ${ENV_NAME}
+        ENV_NAME = 'dev'
         APP_BUILD_NUMBER = ''
     }
 
