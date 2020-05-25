@@ -5,7 +5,7 @@ pipeline {
   }
 
   agent any
-    
+
   stages {
     stage('Build') {
       steps{
@@ -21,8 +21,8 @@ pipeline {
       }
     }
     stage('trigger-ppe-pipeline') {
-      when{
-        env.ENV_NAME 'dev'
+      when {
+        environment name: 'ENV_NAME', value: 'dev'
       }
       steps {
         build (
