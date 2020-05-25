@@ -14,7 +14,7 @@ pipeline {
                 sh "echo $BUILD_NUMBER"
             }
             else {
-                sh "echo $APP_BUILD_NUMBER"
+                sh "echo $APP_BUILD_NUMBER; echo $ENV_NAME"
             }
 
         }
@@ -32,6 +32,23 @@ pipeline {
                     $class: 'StringParameterValue',
                     name: 'APP_BUILD_NUMBER',
                     value: "${BUILD_NUMBER}",
+                ]
+            ]
+        )
+      }
+    }
+    stage('trigger-prod-pipeline') {
+      when {
+        environment name: 'ENV_NAME', value: 'ppe'
+      }
+      steps {
+        build (
+            job: 'prod-pipeline-plm',
+            parameters: [
+                [
+                    $class: 'StringParameterValue',
+                    name: 'APP_BUILD_NUMBER',
+                    value: "${APP_BUILD_NUMBER}",
                 ]
             ]
         )
