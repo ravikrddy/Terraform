@@ -1,11 +1,11 @@
 pipeline {
-    environment {
-        ENV_NAME = "${ENV_NAME}"
-        APP_BUILD_NUMBER = ''
-    }
+  environment {
+    ENV_NAME = "${ENV_NAME}"
+    APP_BUILD_NUMBER = ''
+  }
 
   agent any
-
+    
   stages {
     stage('Build') {
       steps{
@@ -21,6 +21,9 @@ pipeline {
       }
     }
     stage('trigger-ppe-pipeline') {
+      when{
+        env.ENV_NAME 'dev'
+      }
       steps {
         build (
             job: 'ppe-pipeline-plm',
