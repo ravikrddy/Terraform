@@ -3,7 +3,7 @@ pipeline {
     ENV_NAME = "${ENV_NAME}"
     APP_BUILD_NUMBER = "${APP_BUILD_NUMBER}"
   }
-
+  agent any
   stages {
     stage('Build') {
       agent any
