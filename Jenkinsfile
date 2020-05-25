@@ -3,10 +3,11 @@ pipeline {
     ENV_NAME = "${ENV_NAME}"
     APP_BUILD_NUMBER = "${APP_BUILD_NUMBER}"
   }
+
   agent any
+
   stages {
     stage('Build') {
-      agent any
       steps{
         script {
             if (env.ENV_NAME == 'dev') {
@@ -20,7 +21,6 @@ pipeline {
       }
     }
     stage('trigger-ppe-pipeline') {
-      agent any
       when {
         environment name: 'ENV_NAME', value: 'dev'
       }
@@ -38,7 +38,6 @@ pipeline {
       }
     }
     stage('trigger-prod-pipeline') {
-      agent any
       when {
         environment name: 'ENV_NAME', value: 'ppe'
       }
