@@ -28,10 +28,13 @@ pipeline {
             def job = build job: 'ppe-pipeline-plm', parameters: [[$class: 'StringParameterValue', name: 'APP_BUILD_NUMBER', value: $BUILD_NUMBER]]
         }
       }
-      if ($ENV_NAME == 'ppe') {
+      else if ($ENV_NAME == 'ppe') {
         stage('trigger-prod-pipeline') {
             def job = build job: 'prod-pipeline-plm', parameters: [[$class: 'StringParameterValue', name: 'APP_BUILD_NUMBER', value: $APP_BUILD_NUMBER]]
         }
+      }
+      else {
+      
       }
     }
   }
