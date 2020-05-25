@@ -1,29 +1,20 @@
-pipeline {
-  environment {
-    ENV_NAME = "${ENV_NAME}"
-    APP_BUILD_NUMBER = "${APP_BUILD_NUMBER}"
-  }
-
-  agent any
-
-  switch("${env.ENV_NAME}") {
-    case "ppe":
-      verify()
-      echo "Run ppe pipeline"
-      echo "echo $APP_BUILD_NUMBER"
-      break;
-    case "prod":
-      verify()
-      echo "Run prod pipeline"
-      echo "echo $APP_BUILD_NUMBER"
-      break;
-    default:
-      echo "Run dev pipeline"
-      echo "echo $BUILD_NUMBER"
-      build()
-      break;
-  }
-
+node {
+    def ENV_NAME = "${ENV_NAME}"
+    def APP_BUILD_NUMBER = "${APP_BUILD_NUMBER}"
+    stage ('') {
+        switch("${env.ENV_NAME}") {
+            case "ppe":
+                verify()
+                echo "Run ppe pipeline"
+                echo "echo $APP_BUILD_NUMBER"
+                break;
+            default:
+                echo "Run dev pipeline"
+                echo "echo $BUILD_NUMBER"
+                build()
+                break;
+        }
+    }
 }
 
 def verify() {
@@ -43,7 +34,7 @@ def verify() {
 
 def build() {
 
-    stage('Build') {
+    stage('build') {
 
         def triggerBuild = build(
             job: 'ppe-pipeline-plm', parameters: [
@@ -54,4 +45,4 @@ def build() {
             error "Build wasn't successful"
         }
     }
-}
+ }
