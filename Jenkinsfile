@@ -1,6 +1,7 @@
 pipeline {
     environment {
         ENV_NAME = "${ENV_NAME}"
+        APP_BUILD_NUMBER = ''
     }
 
   agent any
