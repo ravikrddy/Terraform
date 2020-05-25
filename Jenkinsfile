@@ -21,7 +21,18 @@ pipeline {
       }
     }
     stage('trigger-ppe-pipeline') {
-      def job = build job: 'ppe-pipeline-plm', parameters: [[$class: 'StringParameterValue', name: 'APP_BUILD_NUMBER', value: $BUILD_NUMBER]]
+      steps {
+        build (
+            job: 'ppe-pipeline-ppe',
+            parameters: [
+                [
+                    $class: 'StringParameterValue',
+                    name: 'APP_BUILD_NUMBER',
+                    value: $BUILD_NUMBER,
+                ]
+            ]
+        )
+      }
     }
   }
 }
