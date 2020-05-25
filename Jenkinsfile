@@ -6,59 +6,52 @@ pipeline {
 
   agent any
 
-  stages {
-    stage('Build') {
-      steps{
-        script {
-            if (env.ENV_NAME == 'dev') {
-                sh "echo $BUILD_NUMBER"
-            }
-            else {
-                sh "echo $APP_BUILD_NUMBER; echo $ENV_NAME"
-            }
+  def verify() {
 
+    stage('Verify') {
+
+        def userInput = input(
+            id: 'userInput', message: 'This is ${ENV_NAME}!', parameters: [
+            [$class: 'BooleanParameterDefinition', defaultValue: false, description: '', name: 'Please confirm you sure to proceed']
+        ])
+
+        if(!userInput) {
+            error "Build wasn't confirmed"
         }
-      }
-    }
-    stage('ppe deploy approval'){
-      input "Deploy to ppe?"
-    }
-    stage('trigger-ppe-pipeline') {
-      when {
-        environment name: 'ENV_NAME', value: 'dev'
-      }
-      steps {
-        build (
-            job: 'ppe-pipeline-plm',
-            parameters: [
-                [
-                    $class: 'StringParameterValue',
-                    name: 'APP_BUILD_NUMBER',
-                    value: "${BUILD_NUMBER}",
-                ]
-            ]
-        )
-      }
-    }
-    stage('prod deploy approval'){
-      input "Deploy to prod?"
-    }
-    stage('trigger-prod-pipeline') {
-      when {
-        environment name: 'ENV_NAME', value: 'ppe'
-      }
-      steps {
-        build (
-            job: 'prod-pipeline-plm',
-            parameters: [
-                [
-                    $class: 'StringParameterValue',
-                    name: 'APP_BUILD_NUMBER',
-                    value: "${APP_BUILD_NUMBER}",
-                ]
-            ]
-        )
-      }
     }
   }
+
+  def build() {
+
+    stage('build') {
+
+        def triggerBuild = build(
+            job: 'ppe-pipeline-plm', parameters: [
+            [$class: 'StringParameterValue', name: 'APP_BUILD_NUMBER', value: "${APP_BUILD_NUMBER}"]
+        ])
+
+        if(!triggerBuild) {
+            error "Build wasn't successful"
+        }
+    }
+  }
+
+  switch("${env.ENV_NAME}") {
+    case "ppe":
+      verify()
+      echo "Run ppe pipeline"
+      echo "echo $APP_BUILD_NUMBER"
+      break;
+    case "prod":
+      verify()
+      echo "Run prod pipeline"
+      echo "echo $APP_BUILD_NUMBER"
+      break;
+    default:
+      echo "Run dev pipeline"
+      echo "echo $BUILD_NUMBER"
+      build()
+      break;
+  }
+
 }
