@@ -11,10 +11,10 @@ pipeline {
       steps{
         script {
             if (env.ENV_NAME == 'dev') {
-                echo $BUILD_NUMBER
+                sh "echo $BUILD_NUMBER"
             }
             else {
-                echo $APP_BUILD_NUMBER
+                sh "echo $APP_BUILD_NUMBER"
             }
 
         }
