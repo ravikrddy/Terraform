@@ -24,17 +24,14 @@ pipeline {
   post {
     success {
       if ($ENV_NAME == 'dev') {
-        stage('trigger-ppe-pipeline') {
+        steps {
             def job = build job: 'ppe-pipeline-plm', parameters: [[$class: 'StringParameterValue', name: 'APP_BUILD_NUMBER', value: $BUILD_NUMBER]]
         }
       }
-      else if ($ENV_NAME == 'ppe') {
-        stage('trigger-prod-pipeline') {
+      if ($ENV_NAME == 'ppe') {
+        steps {
             def job = build job: 'prod-pipeline-plm', parameters: [[$class: 'StringParameterValue', name: 'APP_BUILD_NUMBER', value: $APP_BUILD_NUMBER]]
         }
-      }
-      else {
-      
       }
     }
   }
