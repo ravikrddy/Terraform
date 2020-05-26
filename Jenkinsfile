@@ -1,7 +1,6 @@
 pipeline {
   environment {
     ENV_NAME = ${ENV_NAME}
-    APP_BUILD_NUMBER = ${APP_BUILD_NUMBER}
   }
 
   agent any
@@ -10,11 +9,14 @@ pipeline {
     stage('Build') {
       steps{
         script {
-            if ($ENV_NAME == 'dev') {
-                sh "echo $BUILD_NUMBER"
+            if ($ENV_NAME == 'ppe') {
+                sh "echo Jenkins.instance.getItem('dev-pipeline-plm').lastSuccessfulBuild.number"
+            }
+            else if ($ENV_NAME == 'prod') {
+                sh "echo Jenkins.instance.getItem('ppe-pipeline-plm').lastSuccessfulBuild.number"
             }
             else {
-                sh "echo $APP_BUILD_NUMBER"
+                sh "echo $BUILD_NUMBER"
             }
 
         }
