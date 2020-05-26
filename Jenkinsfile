@@ -18,7 +18,7 @@ pipeline {
                 sh "echo ${PROD_BUILD_NUMBER}"
             }
             else {
-                sh "echo $BUILD_NUMBER"
+              sh "echo ${BUILD_NUMBER}"
             }
 
         }
