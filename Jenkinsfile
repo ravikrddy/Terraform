@@ -1,8 +1,9 @@
 pipeline {
   environment {
     ENV_NAME = "${ENV_NAME}"
-    PPE_BUILD_NUMBER = "\$(curl localhost:8080/job/dev-pipeline-plm/lastSuccessfulBuild/buildNumber)"
-    PROD_BUILD_NUMBER = "\$(curl localhost:8080/job/ppe-pipeline-plm/lastSuccessfulBuild/buildNumber)"
+    APP_NAME = "${APP_NAME}"
+    PPE_BUILD_NUMBER = "\$(curl localhost:8080/job/dev-pipeline-$APP_NAME/lastSuccessfulBuild/buildNumber)"
+    PROD_BUILD_NUMBER = "\$(curl localhost:8080/job/ppe-pipeline-$APP_NAME/lastSuccessfulBuild/buildNumber)"
   }
 
   agent any
@@ -18,7 +19,7 @@ pipeline {
                 sh "echo ${PROD_BUILD_NUMBER}"
             }
             else {
-              sh "echo ${BUILD_NUMBER}"
+                sh "echo ${BUILD_NUMBER}"
             }
 
         }
