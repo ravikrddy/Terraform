@@ -10,13 +10,15 @@ pipeline {
       steps{
         script {
             if (env.ENV_NAME == 'ppe') {
-                sh "echo ${curl localhost:8080/job/dev-pipeline-plm/lastSuccessfulBuild/buildNumber}"
+                sh "buildNumber=$(curl localhost:8080/job/dev-pipeline-plm/lastSuccessfulBuild/buildNumber) ; \
+                echo '$buildNumber'"
             }
             else if (env.ENV_NAME == 'prod') {
-                sh "echo ${curl localhost:8080/job/ppe-pipeline-plm/lastSuccessfulBuild/buildNumber}"
+                sh "buildNumber=$(curl localhost:8080/job/ppe-pipeline-plm/lastSuccessfulBuild/buildNumber) ; \
+                echo '$buildNumber'"
             }
             else {
-              sh "echo ${BUILD_NUMBER}"
+                sh "echo ${BUILD_NUMBER}"
             }
 
         }
