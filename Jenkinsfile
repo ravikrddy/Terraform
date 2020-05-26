@@ -2,7 +2,7 @@ pipeline {
   environment {
     ENV_NAME = "${ENV_NAME}"
     DEV_BUILD_NUMBER = "\$(curl localhost:8080/job/dev-pipeline-plm/lastSuccessfulBuild/buildNumber)"
-    PPE_BUILD_NUMBER = "\$(curl localhost:8080/job/dev-pipeline-plm/lastSuccessfulBuild/buildNumber)"
+    PPE_BUILD_NUMBER = "\$(curl localhost:8080/job/ppe-pipeline-plm/lastSuccessfulBuild/buildNumber)"
   }
 
   agent any
