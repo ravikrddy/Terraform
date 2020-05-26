@@ -1,7 +1,4 @@
 pipeline {
-  environment {
-    ENV_NAME = $ENV_NAME
-  }
 
   agent any
 
